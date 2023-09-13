@@ -1,66 +1,60 @@
 #include <stdio.h>
+#include "linkedlist.h"
+#include "serial.h"
+#include <math.h>
+
+
+// Function to create and open a CSV file with a given filename and write headers
+FILE* createAndOpenCSVFile(const char* filename) {
+    FILE* file = fopen(filename, "w+");
+    if (file != NULL) {
+        fprintf(file, "Serial, Mutex_t1, Mutex_t2, Mutex_t4, Mutex_t8, RWLock_t1, RWLock_t2, RWLock_t4, RWLock_t8\n");
+    }
+    return file;
+}
 
 int main() {
-    printf("Hello, World!\n");
-    return 0;
-}
 
-int Member(int value, struct list_node_s* head_p) {
-    struct list_node_s *curr_p = head_p;
+    const int N = 400;
 
-    while (curr_p != NULL && curr_p->data < value)
-        curr_p = curr_p->next;
+    // Number of operations
+    int m = 10000;
 
-    if (curr_p == NULL || curr_p->data > value)
-        return 0;
-    else
-        return 1;
-}
+    // Fractions for each case
+    int member_frac;
+    int insert_frac;
+    int delete_frac;
 
-int Insert(int value, struct list_node_s** head_pp){
-    struct list_node_s* curr_p = *head_pp;
-    struct list_node_s* pred_p = NULL;
-    struct list_node_s* temp_p;
+    // Use current time as seed for random generator
+    srand(time(0));
 
-    while (curr_p != NULL && curr_p->data < value){
-        pred_p = curr_p;
-        curr_p = curr_p->next;
-    }
+    int cases[] = {0, 1, 2};
+    int fractions[][3] = {{99, 0.5, 0.5}, {90, 5, 5}, {50, 25, 25}};
+    const char* filenames[] = {
+            "C:\\Users\\ASUS\\Documents\\Sem 7\\Concurrent Programming\\Labs\\ConcurrentProgramming_Lab1\\output\\Case_1.csv",
+            "C:\\Users\\ASUS\\Documents\\Sem 7\\Concurrent Programming\\Labs\\ConcurrentProgramming_Lab1\\output\\Case_2.csv",
+            "C:\\Users\\ASUS\\Documents\\Sem 7\\Concurrent Programming\\Labs\\ConcurrentProgramming_Lab1\\output\\Case_3.csv"
+    };
 
-    if (curr_p == NULL || curr_p->data > value){
-        temp_p = malloc(sizeof(struct list_node_s));
-        temp_p->data = value;
-        temp_p->next = curr_p;
-        if (pred_p == NULL)
-            *head_pp = temp_p;
-        else
-            pred_p->next = temp_p;
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-int Delete(int value, struct list_node_s** head_pp){
-    struct list_node_s* curr_p = *head_pp;
-    struct list_node_s* pred_p = NULL;
-
-    while (curr_p != NULL && curr_p->data < value){
-        pred_p = curr_p;
-        curr_p = curr_p->next;
-    }
-
-    if (curr_p != NULL && curr_p->data == value){
-        if (pred_p == NULL){
-            *head_pp = curr_p->next;
-            free(curr_p);
-        } else {
-            pred_p->next = curr_p->next;
-            free(curr_p);
+    for (int i = 0; i < 3; i++) {
+        FILE *file = createAndOpenCSVFile(filenames[i]);
+        if (file == NULL) {
+            printf("Error opening file for case %d\n", cases[i]);
+            continue;
         }
-        return 1;
-    } else {
-        return 0;
+
+        member_frac = fractions[i][0];
+        insert_frac = fractions[i][1];
+        delete_frac = fractions[i][2];
+
+        // Perform operations for the current case here
+
+        fclose(file); // Close the file when done with it
     }
+    printf("Member: %d, Insert: %d, Delete: %d\n", member_frac, insert_frac, delete_frac);
+
+    return 0;
 
 }
+
+
