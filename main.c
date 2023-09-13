@@ -19,6 +19,7 @@ int main() {
 
     // Number of operations
     int m = 10000;
+    int n = 1000; // Number of nodes in linked list
 
     // Fractions for each case
     int member_frac;
@@ -29,7 +30,7 @@ int main() {
     srand(time(0));
 
     int cases[] = {0, 1, 2};
-    int fractions[][3] = {{99, 0.5, 0.5}, {90, 5, 5}, {50, 25, 25}};
+    double fractions[][3] = {{0.99, 0.005, 0.005}, {0.90, 0.05, 0.05}, {0.50, 0.25, 0.25}};
     const char* filenames[] = {
             "C:\\Users\\ASUS\\Documents\\Sem 7\\Concurrent Programming\\Labs\\ConcurrentProgramming_Lab1\\output\\Case_1.csv",
             "C:\\Users\\ASUS\\Documents\\Sem 7\\Concurrent Programming\\Labs\\ConcurrentProgramming_Lab1\\output\\Case_2.csv",
@@ -43,15 +44,26 @@ int main() {
             continue;
         }
 
-        member_frac = fractions[i][0];
-        insert_frac = fractions[i][1];
-        delete_frac = fractions[i][2];
+        member_frac = fractions[i][0] * m;
+        insert_frac = fractions[i][1] * m;
+        delete_frac = fractions[i][2] * m;
+
+        printf("Member: %d, Insert: %d, Delete: %d\n", member_frac, insert_frac, delete_frac);
 
         // Perform operations for the current case here
+        unsigned long total_runtime = 0;
+        for(int j = 0; j < N; j++) {
+            unsigned long serial_runtime = serialExec(n,m, member_frac, insert_frac, delete_frac);
+            //write to serial runtime column in csv file
+            total_runtime += serial_runtime;
+        }
+        double avg_serial_runtime = total_runtime / N;
+        printf("Average serial runtime: %f\n", avg_serial_runtime);
+        //Get standard deviation
+
 
         fclose(file); // Close the file when done with it
     }
-    printf("Member: %d, Insert: %d, Delete: %d\n", member_frac, insert_frac, delete_frac);
 
     return 0;
 
