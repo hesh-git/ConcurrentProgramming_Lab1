@@ -4,14 +4,8 @@
 #include <math.h>
 
 
-// Function to create and open a CSV file with a given filename and write headers
-FILE* createAndOpenCSVFile(const char* filename) {
-    FILE* file = fopen(filename, "w+");
-    if (file != NULL) {
-        fprintf(file, "Serial, Mutex_t1, Mutex_t2, Mutex_t4, Mutex_t8, RWLock_t1, RWLock_t2, RWLock_t4, RWLock_t8\n");
-    }
-    return file;
-}
+
+FILE* createAndOpenCSVFile(const char* filename);
 
 int main() {
 
@@ -68,5 +62,15 @@ int main() {
     return 0;
 
 }
+
+// Function to create and open a CSV file with a given filename and write headers
+FILE* createAndOpenCSVFile(const char* filename) {
+    FILE* file = fopen(filename, "w+");
+    if (file != NULL) {
+        fprintf(file, "Serial, Mutex_t1, Mutex_t2, Mutex_t4, Mutex_t8, RWLock_t1, RWLock_t2, RWLock_t4, RWLock_t8\n");
+    }
+    return file;
+}
+
 
 
