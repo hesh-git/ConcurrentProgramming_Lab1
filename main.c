@@ -47,16 +47,16 @@ int main() {
 
         // Perform operations for the current case
         for(int j = 0; j < N; j++) {
-//            unsigned long serial_runtime = serialExec(n,m, member_frac, insert_frac, delete_frac);
-//            fprintf(file, "%lu,", serial_runtime);
-//            unsigned long mut_t1_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 1);
-//            fprintf(file, "%lu,", mut_t1_runtime);
-//            unsigned long mut_t2_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 2);
-//            fprintf(file, "%lu,", mut_t2_runtime);
-//            unsigned long mut_t4_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 4);
-//            fprintf(file, "%lu,", mut_t4_runtime);
-//            unsigned long mut_t8_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 8);
-//            fprintf(file, "%lu,", mut_t8_runtime);
+            unsigned long serial_runtime = serialExec(n,m, member_frac, insert_frac, delete_frac);
+            fprintf(file, "%lu,", serial_runtime);
+            unsigned long mut_t1_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 1);
+            fprintf(file, "%lu,", mut_t1_runtime);
+            unsigned long mut_t2_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 2);
+            fprintf(file, "%lu,", mut_t2_runtime);
+            unsigned long mut_t4_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 4);
+            fprintf(file, "%lu,", mut_t4_runtime);
+            unsigned long mut_t8_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 8);
+            fprintf(file, "%lu,", mut_t8_runtime);
             unsigned long rw_t1_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 1);
             fprintf(file, "%lu,", rw_t1_runtime);
             unsigned long rw_t2_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 2);
