@@ -47,7 +47,7 @@ int main() {
         insert_frac = fractions[i][1];
         delete_frac = fractions[i][2];
 
-        // Perform operations for the current case here
+        // Perform ope;rations for the current case here
 
         fclose(file); // Close the file when done with it
     }
