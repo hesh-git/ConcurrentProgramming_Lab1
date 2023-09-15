@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "linkedlist.h"
 #include "serial.h"
+#include "rwlock.h"
 #include <math.h>
-
 
 
 FILE* createAndOpenCSVFile(const char* filename);
@@ -46,15 +46,37 @@ int main() {
 
         // Perform operations for the current case here
         unsigned long total_runtime = 0;
+        unsigned long total_rw_t1_runtime = 0;
+        unsigned long total_rw_t2_runtime = 0;
+        unsigned long total_rw_t4_runtime = 0;
+        unsigned long total_rw_t8_runtime = 0;
         for(int j = 0; j < N; j++) {
             unsigned long serial_runtime = serialExec(n,m, member_frac, insert_frac, delete_frac);
+
+            unsigned long rw_t1_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 1);
+            unsigned long rw_t2_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 2);
+            unsigned long rw_t4_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 4);
+            unsigned long rw_t8_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 8);
             //write to serial runtime column in csv file
             total_runtime += serial_runtime;
+            total_rw_t1_runtime += rw_t1_runtime;
+            total_rw_t2_runtime += rw_t2_runtime;
+            total_rw_t4_runtime += rw_t4_runtime;
+            total_rw_t8_runtime += rw_t8_runtime;
         }
         double avg_serial_runtime = total_runtime / N;
-        printf("Average serial runtime: %f\n", avg_serial_runtime);
+        double avg_rw_t1_runtime = total_rw_t1_runtime / N;
+        double avg_rw_t2_runtime = total_rw_t2_runtime / N;
+        double avg_rw_t4_runtime = total_rw_t4_runtime / N;
+        double avg_rw_t8_runtime = total_rw_t8_runtime / N;
+        //print average runtime for each case in seconds
+        printf("Average serial runtime: %f ms\n", avg_serial_runtime/1000);
+        printf("Average rw_t1 runtime: %f ms\n", avg_rw_t1_runtime/1000);
+        printf("Average rw_t2 runtime: %f ms\n", avg_rw_t2_runtime/1000);
+        printf("Average rw_t4 runtime: %f ms\n", avg_rw_t4_runtime/1000);
+        printf("Average rw_t8 runtime: %f ms\n", avg_rw_t8_runtime/1000);
+        printf("=====================================================\n");
         //Get standard deviation
-
 
         fclose(file); // Close the file when done with it
     }

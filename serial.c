@@ -49,8 +49,6 @@ unsigned long serialExec(int nodes, int total_operations, int member_operations,
     }
     gettimeofday(&end, NULL);
 
-    unsigned long time = time_spent(&start, &end);
-
-    return time;
+    return time_spent(&start, &end);
 
 }

@@ -7,4 +7,6 @@ add_executable(ConcurrentProgramming_Lab1 main.c linkedlist.c
         serial.c
         serial.h
         global.c
-        global.h)
+        global.h
+        rwlock.c
+        rwlock.h)

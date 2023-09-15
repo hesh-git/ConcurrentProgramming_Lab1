@@ -73,6 +73,12 @@ build CMakeFiles/ConcurrentProgramming_Lab1.dir/global.c.obj: C_COMPILER__Concur
   OBJECT_DIR = CMakeFiles\ConcurrentProgramming_Lab1.dir
   OBJECT_FILE_DIR = CMakeFiles\ConcurrentProgramming_Lab1.dir
 
+build CMakeFiles/ConcurrentProgramming_Lab1.dir/rwlock.c.obj: C_COMPILER__ConcurrentProgramming_Lab1_unscanned_Debug C$:/Users/ASUS/Documents/Sem$ 7/Concurrent$ Programming/Labs/ConcurrentProgramming_Lab1/rwlock.c || cmake_object_order_depends_target_ConcurrentProgramming_Lab1
+  DEP_FILE = CMakeFiles\ConcurrentProgramming_Lab1.dir\rwlock.c.obj.d
+  FLAGS = -g -std=gnu2x -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ConcurrentProgramming_Lab1.dir
+  OBJECT_FILE_DIR = CMakeFiles\ConcurrentProgramming_Lab1.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target ConcurrentProgramming_Lab1
@@ -81,7 +87,7 @@ build CMakeFiles/ConcurrentProgramming_Lab1.dir/global.c.obj: C_COMPILER__Concur
 #############################################
 # Link the executable ConcurrentProgramming_Lab1.exe
 
-build ConcurrentProgramming_Lab1.exe: C_EXECUTABLE_LINKER__ConcurrentProgramming_Lab1_Debug CMakeFiles/ConcurrentProgramming_Lab1.dir/main.c.obj CMakeFiles/ConcurrentProgramming_Lab1.dir/linkedlist.c.obj CMakeFiles/ConcurrentProgramming_Lab1.dir/serial.c.obj CMakeFiles/ConcurrentProgramming_Lab1.dir/global.c.obj
+build ConcurrentProgramming_Lab1.exe: C_EXECUTABLE_LINKER__ConcurrentProgramming_Lab1_Debug CMakeFiles/ConcurrentProgramming_Lab1.dir/main.c.obj CMakeFiles/ConcurrentProgramming_Lab1.dir/linkedlist.c.obj CMakeFiles/ConcurrentProgramming_Lab1.dir/serial.c.obj CMakeFiles/ConcurrentProgramming_Lab1.dir/global.c.obj CMakeFiles/ConcurrentProgramming_Lab1.dir/rwlock.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\ConcurrentProgramming_Lab1.dir
