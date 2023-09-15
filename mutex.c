@@ -9,9 +9,9 @@
 #include "linkedlist.h"
 #include "mutex.h"
 
-unsigned long mutexExec(int total_operations, int member_frac, int insert_frac, int delete_frac, int thread_count){
+unsigned long executeConcurrentLinkedList(int total_operations, int member_frac, int insert_frac, int delete_frac, int thread_count){
 
-    mutex_data thread_data;
+    concurrent_linked_list_data thread_data;
 
     thread_data.head = NULL;
 
@@ -19,15 +19,15 @@ unsigned long mutexExec(int total_operations, int member_frac, int insert_frac, 
     thread_data.m = total_operations;
 
     // Number of operations run so far
-    thread_data.insert_operations_count = 0;
-    thread_data.member_operations_count = 0;
-    thread_data.delete_operations_count = 0;
-    thread_data.total_operations_count = 0;
+    thread_data.insert_opr_count = 0;
+    thread_data.member_opr_count = 0;
+    thread_data.delete_opr_count = 0;
+    thread_data.total_opr_count = 0;
 
     // Fractions of each operation
-    thread_data.member_frac = member_frac;
-    thread_data.insert_frac = insert_frac;
-    thread_data.delete_frac = delete_frac;
+    thread_data.member_fraction = member_frac;
+    thread_data.insert_fraction = insert_frac;
+    thread_data.delete_fraction = delete_frac;
 
     int n = 1000; // Number of nodes in linked list
     int nodes = 0;
@@ -52,7 +52,7 @@ unsigned long mutexExec(int total_operations, int member_frac, int insert_frac, 
 
     // Generate threads
     for (int thread=0; thread < thread_count; thread++){
-        pthread_create(&thread_handles[thread], NULL, threadFuncMutex, (void*) &thread_data);
+        pthread_create(&thread_handles[thread], NULL, concurrentLinkedListThread, (void*) &thread_data);
     }
 
     for (int thread=0; thread < thread_count; thread++){
@@ -74,11 +74,11 @@ unsigned long mutexExec(int total_operations, int member_frac, int insert_frac, 
     return time;
 }
 
-void *threadFuncMutex(void * args){
+void *concurrentLinkedListThread(void * args){
 
-    mutex_data* thread_data = args;
+    concurrent_linked_list_data* thread_data = args;
 
-    while (thread_data->total_operations_count < thread_data->m){
+    while (thread_data->total_opr_count < thread_data->m){
 
         // Generate random number
         int rand_value = rand() % MAX;
@@ -86,33 +86,33 @@ void *threadFuncMutex(void * args){
         // Generate random operation number
         int op = rand() % 3;
 
-        if (op==0 && thread_data->insert_operations_count < thread_data->insert_frac){
-            if (thread_data->total_operations_count < thread_data->m){
+        if (op==0 && thread_data->insert_opr_count < thread_data->insert_fraction){
+            if (thread_data->total_opr_count < thread_data->m){
                 /* Critical section */
                 pthread_mutex_lock(&thread_data->mutex);
                 Insert(rand_value, &thread_data->head);
-                thread_data->insert_operations_count++;
-                thread_data->total_operations_count++;
+                thread_data->insert_opr_count++;
+                thread_data->total_opr_count++;
                 pthread_mutex_unlock(&thread_data->mutex);
             }
         }
-        else if(op==1 && thread_data->delete_operations_count < thread_data->delete_frac){
-            if (thread_data->total_operations_count < thread_data->m){
+        else if(op==1 && thread_data->delete_opr_count < thread_data->delete_fraction){
+            if (thread_data->total_opr_count < thread_data->m){
                 /* Critical section */
                 pthread_mutex_lock(&thread_data->mutex);
                 Delete(rand_value, &thread_data->head);
-                thread_data->delete_operations_count++;
-                thread_data->total_operations_count++;
+                thread_data->delete_opr_count++;
+                thread_data->total_opr_count++;
                 pthread_mutex_unlock(&thread_data->mutex);
             }
         }
-        else if(thread_data->member_operations_count < thread_data->member_frac){
-            if (thread_data->total_operations_count < thread_data->m){
+        else if(thread_data->member_opr_count < thread_data->member_fraction){
+            if (thread_data->total_opr_count < thread_data->m){
                 /* Critical section */
                 pthread_mutex_lock(&thread_data->mutex);
                 Member(rand_value, thread_data->head);
-                thread_data->member_operations_count++;
-                thread_data->total_operations_count++;
+                thread_data->member_opr_count++;
+                thread_data->total_opr_count++;
                 pthread_mutex_unlock(&thread_data->mutex);
             }
         }
