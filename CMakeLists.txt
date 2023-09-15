@@ -8,5 +8,7 @@ add_executable(ConcurrentProgramming_Lab1 main.c linkedlist.c
         serial.h
         global.c
         global.h
+        rwlock.c
+        rwlock.h
         mutex.c
-        mutex.c)
+        mutex.h)

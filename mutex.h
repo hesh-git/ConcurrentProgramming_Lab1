@@ -35,6 +35,6 @@ struct concurrent_linked_list_data {
 typedef struct concurrent_linked_list_data concurrent_linked_list_data;
 
 //Function to execute the concurrent linked list operations
-unsigned long executeConcurrentLinkedList(int total_opr, int member_fraction, int insert_fraction, int delete_fraction, int thread_count);
+unsigned long mutexExec(int total_opr, int member_fraction, int insert_fraction, int delete_fraction, int thread_count);
 
 #endif //LAB1_MUTEX_H

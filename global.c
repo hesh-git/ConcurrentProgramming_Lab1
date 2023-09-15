@@ -1,6 +1,7 @@
 #include <sys/time.h>
 #include "global.h"
 
+
 // Function to calculate time spent
 unsigned long time_spent(struct timeval *start, struct timeval *end)
 {

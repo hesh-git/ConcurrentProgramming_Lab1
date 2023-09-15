@@ -9,7 +9,7 @@
 #include "linkedlist.h"
 #include "mutex.h"
 
-unsigned long executeConcurrentLinkedList(int total_operations, int member_frac, int insert_frac, int delete_frac, int thread_count){
+unsigned long mutexExec(int total_operations, int member_frac, int insert_frac, int delete_frac, int thread_count){
 
     concurrent_linked_list_data thread_data;
 
@@ -67,10 +67,8 @@ unsigned long executeConcurrentLinkedList(int total_operations, int member_frac,
     pthread_mutex_destroy(&thread_data.mutex);
 
     unsigned long time = time_spent(&start, &end);
-    //printf("Time taken: %lu μs\n", time);
 
     Destroy(thread_data.head);
-    printf("Mutex run complete\n");
     return time;
 }
 
