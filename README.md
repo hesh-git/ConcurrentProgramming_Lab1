@@ -22,5 +22,11 @@ This project was developed and compiled within the CLion IDE. To ensure proper e
 
 2. Adjust the number of samples (N) as necessary in the main.c file.
 
+3. With these instructions in place, you can compile and run the program effectively in your chosen development 
+environment.
 
-With these instructions in place, you can compile and run the program effectively in your chosen development environment.
+4. After running the main.c with your preferred compiler, three separate csv files will be generated, each containing 
+the average execution times and standard deviation for the three cases in output folder.
+
+
+
