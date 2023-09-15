@@ -44,6 +44,7 @@ int main() {
 
         printf("Member: %d, Insert: %d, Delete: %d\n", member_frac, insert_frac, delete_frac);
 
+
         // Perform operations for the current case here
         unsigned long total_runtime = 0;
         for(int j = 0; j < N; j++) {
