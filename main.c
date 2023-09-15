@@ -2,6 +2,7 @@
 #include "linkedlist.h"
 #include "serial.h"
 #include "rwlock.h"
+#include "mutex.h"
 #include <math.h>
 
 
@@ -44,39 +45,27 @@ int main() {
 
         printf("Member: %d, Insert: %d, Delete: %d\n", member_frac, insert_frac, delete_frac);
 
-        // Perform operations for the current case here
-        unsigned long total_runtime = 0;
-        unsigned long total_rw_t1_runtime = 0;
-        unsigned long total_rw_t2_runtime = 0;
-        unsigned long total_rw_t4_runtime = 0;
-        unsigned long total_rw_t8_runtime = 0;
+        // Perform operations for the current case
         for(int j = 0; j < N; j++) {
-            unsigned long serial_runtime = serialExec(n,m, member_frac, insert_frac, delete_frac);
-
+//            unsigned long serial_runtime = serialExec(n,m, member_frac, insert_frac, delete_frac);
+//            fprintf(file, "%lu,", serial_runtime);
+//            unsigned long mut_t1_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 1);
+//            fprintf(file, "%lu,", mut_t1_runtime);
+//            unsigned long mut_t2_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 2);
+//            fprintf(file, "%lu,", mut_t2_runtime);
+//            unsigned long mut_t4_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 4);
+//            fprintf(file, "%lu,", mut_t4_runtime);
+//            unsigned long mut_t8_runtime = mutexExec(m, member_frac, insert_frac, delete_frac, 8);
+//            fprintf(file, "%lu,", mut_t8_runtime);
             unsigned long rw_t1_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 1);
+            fprintf(file, "%lu,", rw_t1_runtime);
             unsigned long rw_t2_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 2);
+            fprintf(file, "%lu,", rw_t2_runtime);
             unsigned long rw_t4_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 4);
+            fprintf(file, "%lu,", rw_t4_runtime);
             unsigned long rw_t8_runtime = rwlockExec(n,m, member_frac, insert_frac, delete_frac, 8);
-            //write to serial runtime column in csv file
-            total_runtime += serial_runtime;
-            total_rw_t1_runtime += rw_t1_runtime;
-            total_rw_t2_runtime += rw_t2_runtime;
-            total_rw_t4_runtime += rw_t4_runtime;
-            total_rw_t8_runtime += rw_t8_runtime;
+            fprintf(file, "%lu\n", rw_t8_runtime);
         }
-        double avg_serial_runtime = total_runtime / N;
-        double avg_rw_t1_runtime = total_rw_t1_runtime / N;
-        double avg_rw_t2_runtime = total_rw_t2_runtime / N;
-        double avg_rw_t4_runtime = total_rw_t4_runtime / N;
-        double avg_rw_t8_runtime = total_rw_t8_runtime / N;
-        //print average runtime for each case in seconds
-        printf("Average serial runtime: %f ms\n", avg_serial_runtime/1000);
-        printf("Average rw_t1 runtime: %f ms\n", avg_rw_t1_runtime/1000);
-        printf("Average rw_t2 runtime: %f ms\n", avg_rw_t2_runtime/1000);
-        printf("Average rw_t4 runtime: %f ms\n", avg_rw_t4_runtime/1000);
-        printf("Average rw_t8 runtime: %f ms\n", avg_rw_t8_runtime/1000);
-        printf("=====================================================\n");
-        //Get standard deviation
 
         fclose(file); // Close the file when done with it
     }

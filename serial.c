@@ -17,10 +17,9 @@ unsigned long serialExec(int nodes, int total_operations, int member_operations,
     //Populate the linked list with random values
     while (n > 0){
         int value = rand()%(MAX_VAL);
-        if(!Member(value, list.head)){
-            Insert(value, &list.head);
-            n--;
-        }
+        Insert(value, &list.head);
+        n--;
+
     }
 
     struct timeval start;
@@ -47,6 +46,7 @@ unsigned long serialExec(int nodes, int total_operations, int member_operations,
             m--;
         }
     }
+    free(list.head);
     gettimeofday(&end, NULL);
 
     return time_spent(&start, &end);

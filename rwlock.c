@@ -23,10 +23,9 @@ unsigned long rwlockExec(int nodes, int total_operations, int member_operations,
     // Randomly insert linked list nodes
     while (n > 0){
         int value = rand()%(MAX_VAL);
-        if(!Member(value, thread_data.head)){
-            Insert(value, &thread_data.head);
-            n--;
-        }
+        Insert(value, &thread_data.head);
+        n--;
+
     }
 
     // Initialize the read write lock
@@ -71,47 +70,51 @@ void *threadFuncReadWrite(void* rank){
     int mInsert = thread_data->insert_frac;
     int delete_frac = thread_data->delete_frac;
 
-    int member_operations_count = 0;
-    int insert_operations_count = 0;
-    int delete_operations_count = 0;
-    int total_operations_count = 0;
+    while (thread_data->total_operations_count < thread_data->m){
 
-    while (m > 0){
-        int value = rand()%MAX_VAL;
-        int operation = rand()%3;
-        if(operation == 0 && mMember > 0){
-            pthread_rwlock_rdlock(&thread_data->rwlock);
-            Member(value, thread_data->head);
-            pthread_rwlock_unlock(&thread_data->rwlock);
-            member_operations_count++;
-            mMember--;
-            m--;
+        // Generate random number
+        int rand_value = rand() % MAX;
+
+        // Generate random operation number
+        int operation = rand() % 3;
+
+        if (operation == 0 && thread_data->insert_operations_count < thread_data->insert_frac){
+            if (thread_data->total_operations_count < thread_data->m){
+                /* Critical section */
+                pthread_rwlock_wrlock(&thread_data->rwlock);
+                Insert(rand_value, &thread_data->head);
+                thread_data->insert_operations_count++;
+                thread_data->total_operations_count++;
+                pthread_rwlock_unlock(&thread_data->rwlock);
+            }
+
         }
-        else if(operation == 1 && mInsert > 0){
-            pthread_rwlock_wrlock(&thread_data->rwlock);
-            Insert(value, &thread_data->head);
-            pthread_rwlock_unlock(&thread_data->rwlock);
-            insert_operations_count++;
-            mInsert--;
-            m--;
+        else if(operation == 1 && thread_data->delete_operations_count < thread_data->delete_frac){
+            if (thread_data->total_operations_count < thread_data->m){
+                /* Critical section */
+                pthread_rwlock_wrlock(&thread_data->rwlock);
+                Delete(rand_value, &thread_data->head);
+                thread_data->delete_operations_count++;
+                thread_data->total_operations_count++;
+                pthread_rwlock_unlock(&thread_data->rwlock);
+            }
+
         }
-        else if(operation == 2 && delete_frac > 0){
-            pthread_rwlock_wrlock(&thread_data->rwlock);
-            Delete(value, &thread_data->head);
-            pthread_rwlock_unlock(&thread_data->rwlock);
-            delete_operations_count++;
-            delete_frac--;
-            m--;
+        else if(thread_data->member_operations_count < thread_data->member_frac){
+            if (thread_data->total_operations_count < thread_data->m){
+                /* Critical section */
+                pthread_rwlock_rdlock(&thread_data->rwlock);
+                Member(rand_value, thread_data->head);
+                pthread_rwlock_unlock(&thread_data->rwlock);
+
+                /* Critical section (read lock is not suitable for writing) */
+                pthread_mutex_lock(&thread_data->count_mutex);
+                thread_data->member_operations_count++;
+                thread_data->total_operations_count++;
+                pthread_mutex_unlock(&thread_data->count_mutex);
+            }
         }
-        total_operations_count++;
     }
-
-    pthread_mutex_lock(&thread_data->count_mutex);
-    thread_data->member_operations_count += member_operations_count;
-    thread_data->insert_operations_count += insert_operations_count;
-    thread_data->delete_operations_count += delete_operations_count;
-    thread_data->total_operations_count += total_operations_count;
-    pthread_mutex_unlock(&thread_data->count_mutex);
 
     return NULL;
 }
