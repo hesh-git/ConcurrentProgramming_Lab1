@@ -13,25 +13,28 @@
 #include "linkedlist.h"
 #include "global.h"
 
-void *threadFuncMutex(void* rank);
+//Function to be executed by each thread
+void *concurrentLinkedListThread(void* thread_rank);
 
-struct mutex_data {
-    pthread_mutex_t mutex;
-    LinkedList *head;
+//Struct to hold data related to the concurrent linked list operations
+struct concurrent_linked_list_data {
+    pthread_mutex_t mutex; //Mutex to lock the linked list
+    LinkedList *head; //Head of the linked list
 
-    int m;
+    int m; //Total number of operations to perform
 
-    int member_frac;
-    int insert_frac;
-    int delete_frac;
+    int member_fraction; //Fraction of member operations
+    int insert_fraction; //Fraction of insert operations
+    int delete_fraction; //Fraction of delete operations
 
-    int member_operations_count;
-    int insert_operations_count;
-    int delete_operations_count;
-    int total_operations_count;
+    int member_opr_count; //Number of member operations performed
+    int insert_opr_count; //Number of insert operations performed
+    int delete_opr_count; //Number of delete operations performed
+    int total_opr_count; //Total number of operations performed
 };
-typedef struct mutex_data mutex_data;
+typedef struct concurrent_linked_list_data concurrent_linked_list_data;
 
-unsigned long mutexExec(int total_operations, int member_frac, int insert_frac, int delete_frac, int thread_count);
+//Function to execute the concurrent linked list operations
+unsigned long executeConcurrentLinkedList(int total_opr, int member_fraction, int insert_fraction, int delete_fraction, int thread_count);
 
 #endif //LAB1_MUTEX_H
